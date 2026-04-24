@@ -21,8 +21,7 @@ app.post('/api/generate', async (req, res) => {
   if (!prompt) return res.status(400).json({ error: 'No prompt provided' });
 
   try {
-    const MODEL = "gemini-1.5-pro";
-    const url = `https://generativelanguage.googleapis.com/v1/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
