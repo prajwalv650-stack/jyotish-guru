@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jyotish Guru by Deoxys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07050E;--bg2:#0D0A1A;--bg3:#131020;
+  --card:#14112A;--card2:#1C1838;
+  --border:#26204A;--border2:#38306A;
+  --gold:#C9A84C;--gold2:#E8D5A3;--gold3:#7A5C18;
+  --purple:#7B5EA7;--purple2:#9B7EC7;--purple3:#4E3080;
+  --teal:#3BBFAD;
+  --text:#E0D5F5;--text2:#9E90C0;--text3:#584E80;
+  --red:#E05555;--green:#5CB88A;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Crimson Pro',serif;font-size:16px;overflow-x:hidden}
+
+/* nebula */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 55% 45% at 10% 20%,rgba(123,94,167,.1) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 50% at 90% 80%,rgba(59,191,173,.07) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 30% at 50% 0%,rgba(201,168,76,.05) 0%,transparent 55%)}
+
+/* stars */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.stars span{position:absolute;border-radius:50%;background:#fff;
+  animation:twk var(--d,3s) var(--dl,0s) ease-in-out infinite alternate}
+@keyframes twk{0%{opacity:.04;transform:scale(1)}100%{opacity:.55;transform:scale(1.4)}}
+
+.wrap{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1}
+
+/* ── HEADER ── */
+.header{text-align:center;padding:3rem 0 2.5rem;margin-bottom:2.5rem;position:relative}
+.header::after{content:'';position:absolute;bottom:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border2),var(--gold3),var(--border2),transparent)}
+.hstars{display:block;font-size:.95rem;color:var(--gold);letter-spacing:20px;
+  margin-bottom:1.2rem;opacity:.6;animation:glow 4s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.45}50%{opacity:.85}}
+.brand{font-family:'Cinzel Decorative',serif;font-size:2.5rem;font-weight:700;line-height:1.15;
+  background:linear-gradient(130deg,#9A7020,var(--gold),var(--gold2),#B090D8,var(--purple2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.3rem}
+.brand-by{font-family:'Cinzel',serif;font-size:.7rem;color:var(--gold3);letter-spacing:5px;
+  text-transform:uppercase;margin-bottom:.9rem}
+.tagline{font-size:1.05rem;color:var(--text2);font-style:italic;font-weight:300;letter-spacing:.2px}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:5px;margin-bottom:2rem}
+.tab{flex:1;padding:.72rem .5rem;font-family:'Cinzel',serif;font-size:.75rem;font-weight:500;
+  border:none;background:transparent;cursor:pointer;border-radius:8px;
+  color:var(--text3);letter-spacing:.5px;transition:all .3s;text-align:center}
+.tab.active{background:linear-gradient(135deg,var(--purple3),var(--purple));
+  color:var(--gold2);box-shadow:0 2px 18px rgba(123,94,167,.35)}
+.tab:not(.active):hover{color:var(--text2);background:rgba(255,255,255,.04)}
+
+/* ── PANELS ── */
+.panel{display:none}.panel.active{display:block}
+
+/* ── SECTION TITLE ── */
+.stitle{font-family:'Cinzel',serif;font-size:.8rem;font-weight:500;color:var(--gold);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.4rem;padding-bottom:.6rem;
+  display:flex;align-items:center;gap:.6rem;border-bottom:1px solid var(--border)}
+.stitle::before{content:'◆';color:var(--purple2);font-size:.62rem}
+
+/* ── FORM ── */
+.fg-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.fg{display:flex;flex-direction:column;gap:.4rem}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:.68rem;font-weight:500;color:var(--text3);letter-spacing:.9px;
+  text-transform:uppercase;font-family:'Cinzel',serif}
+.fg input{padding:.68rem .95rem;border:1px solid var(--border);border-radius:8px;
+  font-family:'Crimson Pro',serif;font-size:1rem;color:var(--text);
+  background:var(--card);transition:border .2s,background .2s;outline:none;
+  -webkit-appearance:none;appearance:none;width:100%}
+.fg input:focus{border-color:var(--gold);background:var(--card2)}
+.fg input::placeholder{color:var(--text3);font-style:italic}
+input[type=date],input[type=time]{color-scheme:dark}
+
+/* ── BUTTON ── */
+.btn-row{display:flex;justify-content:center;margin-top:2rem}
+.btn{display:inline-flex;align-items:center;gap:.65rem;padding:.9rem 2.8rem;
+  background:linear-gradient(135deg,var(--purple3),var(--purple),#6848B8);
+  color:var(--gold2);font-family:'Cinzel',serif;font-size:.84rem;font-weight:500;
+  letter-spacing:1.2px;border:1px solid rgba(155,126,199,.35);border-radius:10px;
+  cursor:pointer;transition:all .3s;
+  box-shadow:0 4px 24px rgba(90,60,140,.3),inset 0 1px 0 rgba(255,255,255,.07)}
+.btn:hover{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;
+  box-shadow:0 8px 32px rgba(123,94,167,.5);transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none !important}
+
+.orn{text-align:center;color:var(--gold3);letter-spacing:10px;font-size:.85rem;margin:1.2rem 0 .3rem;opacity:.5}
+
+/* ── MATCH TWO-COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.5rem}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.3rem}
+.pcard h3{font-family:'Cinzel',serif;font-size:.76rem;color:var(--purple2);letter-spacing:.5px;
+  margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.pcard .fg{margin-bottom:.75rem}.pcard .fg:last-child{margin-bottom:0}
+
+/* ── LOADING ── */
+.loading{text-align:center;padding:3.5rem 1rem}
+.ring{width:60px;height:60px;margin:0 auto 1.4rem;border-radius:50%;
+  border:2px solid var(--border2);border-top-color:var(--gold);
+  border-right-color:var(--purple2);animation:spin 1.1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:var(--text2);font-style:italic;font-size:1.05rem}
+.loading .lsub{font-size:.76rem;color:var(--text3);margin-top:.5rem;
+  letter-spacing:.8px;font-family:'Cinzel',serif;text-transform:uppercase}
+
+/* ── RESULT ── */
+.rcard{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.5);margin-top:2.5rem}
+.rhdr{background:linear-gradient(135deg,#160C3C,#201650);
+  padding:1.2rem 1.6rem;border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;gap:.85rem}
+.rhdr .ico{font-size:1.5rem;color:var(--gold)}
+.rhdr .rt{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold2);letter-spacing:.5px}
+.rhdr .rs{font-size:.8rem;color:var(--text3);margin-top:.2rem;font-style:italic}
+.rbody{padding:2rem;line-height:1.88;color:var(--text)}
+.rbody h2,.rbody h3{font-family:'Cinzel',serif;font-size:.78rem;color:var(--teal);
+  letter-spacing:1.2px;text-transform:uppercase;margin:1.8rem 0 .7rem;
+  padding-bottom:.45rem;border-bottom:1px solid rgba(59,191,173,.18);
+  display:flex;align-items:center;gap:.5rem}
+.rbody h2:first-child,.rbody h3:first-child{margin-top:0}
+.rbody h2::before,.rbody h3::before{content:'';display:inline-block;width:18px;height:1px;
+  background:var(--teal);opacity:.5;flex-shrink:0}
+.rbody p{margin-bottom:.75rem;color:#C5BBE0;font-size:1.02rem}
+.rbody ul,.rbody ol{padding-left:1.5rem;margin-bottom:.75rem}
+.rbody li{margin-bottom:.45rem;color:#C5BBE0;font-size:1.02rem}
+.rbody strong{color:var(--gold2);font-weight:500}
+.rbody em{color:var(--purple2);font-style:italic}
+.rbody hr{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+.rbody table{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.95rem}
+.rbody th{font-family:'Cinzel',serif;font-size:.68rem;color:var(--text3);letter-spacing:.5px;
+  text-transform:uppercase;text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--border)}
+.rbody td{padding:.5rem .7rem;border-bottom:1px solid rgba(38,32,74,.6);color:#C5BBE0}
+.rbody tr:last-child td{border-bottom:none}
+
+/* ── ERROR ── */
+.ebox{background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.22);
+  border-radius:10px;padding:1.3rem 1.6rem;color:#F0A0A0;font-size:.97rem;line-height:1.75;margin-top:1.5rem}
+.ebox strong{color:var(--red)}
+.ebox ul{padding-left:1.2rem;margin-top:.6rem;color:#C08888}
+.ebox li{margin-bottom:.3rem;font-size:.9rem}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:2.5rem 0 1.5rem;margin-top:3.5rem;position:relative}
+.footer::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border2),transparent)}
+.footer p{font-size:.76rem;color:var(--text3);letter-spacing:.5px;font-family:'Cinzel',serif}
+.footer .g{color:var(--gold3)}
+
+@media(max-width:640px){
+  .fg-grid,.g3,.two-col{grid-template-columns:1fr}
+  .brand{font-size:1.65rem}
+  .tabs{flex-direction:column}
+  .rbody{padding:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="wrap">
+
+  <div class="header">
+    <span class="hstars">☽ ✦ ☉ ✦ ☾</span>
+    <div class="brand">Jyotish Guru</div>
+    <div class="brand-by">by Deoxys</div>
+    <p class="tagline">Vedic Birth Chart &nbsp;·&nbsp; Kundali Matching &nbsp;·&nbsp; Dasha Predictions</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('single')">🪐 Birth Chart &amp; Predictions</button>
+    <button class="tab" onclick="switchTab('match')">💫 Kundali Matching</button>
+  </div>
+
+  <!-- SINGLE -->
+  <div id="panel-single" class="panel active">
+    <div class="stitle">Birth Details</div>
+    <div class="fg-grid g3">
+      <div class="fg">
+        <label>Full Name (Optional)</label>
+        <input type="text" id="name1" placeholder="e.g. Arjun Sharma"/>
+      </div>
+      <div class="fg">
+        <label>Date of Birth ✦</label>
+        <input type="date" id="dob1"/>
+      </div>
+      <div class="fg">
+        <label>Time of Birth ✦</label>
+        <input type="time" id="tob1"/>
+      </div>
+      <div class="fg full">
+        <label>Place of Birth ✦</label>
+        <input type="text" id="pob1" placeholder="e.g. Mumbai, Maharashtra, India"/>
+      </div>
+    </div>
+    <div class="orn">✦ ◆ ✦</div>
+    <div class="btn-row">
+      <button class="btn" id="btnS" onclick="genSingle()">✦ &nbsp;Generate Kundali &amp; Predictions</button>
+    </div>
+    <div id="out-single"></div>
+  </div>
+
+  <!-- MATCH -->
+  <div id="panel-match" class="panel">
+    <div class="stitle">Enter Details for Both Persons</div>
+    <div class="two-col">
+      <div class="pcard">
+        <h3>☽ &nbsp;Person 1 — Bride / Vara</h3>
+        <div class="fg"><label>Full Name</label><input type="text" id="mn1" placeholder="Name"/></div>
+        <div class="fg"><label>Date of Birth ✦</label><input type="date" id="md1"/></div>
+        <div class="fg"><label>Time of Birth ✦</label><input type="time" id="mt1"/></div>
+        <div class="fg"><label>Place of Birth ✦</label><input type="text" id="mp1" placeholder="City, Country"/></div>
+      </div>
+      <div class="pcard">
+        <h3>☉ &nbsp;Person 2 — Groom / Varan</h3>
+        <div class="fg"><label>Full Name</label><input type="text" id="mn2" placeholder="Name"/></div>
+        <div class="fg"><label>Date of Birth ✦</label><input type="date" id="md2"/></div>
+        <div class="fg"><label>Time of Birth ✦</label><input type="time" id="mt2"/></div>
+        <div class="fg"><label>Place of Birth ✦</label><input type="text" id="mp2" placeholder="City, Country"/></div>
+      </div>
+    </div>
+    <div class="orn">✦ ◆ ✦</div>
+    <div class="btn-row">
+      <button class="btn" id="btnM" onclick="genMatch()">✦ &nbsp;Perform Kundali Matching</button>
+    </div>
+    <div id="out-match"></div>
+  </div>
+
+  <div class="footer">
+    <p>Jyotish Guru <span class="g">✦</span> by Deoxys <span class="g">✦</span> Powered by Gemini AI</p>
+    <p style="margin-top:.45rem;font-size:.68rem">For spiritual guidance only &nbsp;·&nbsp; Consult a certified Jyotishi for major life decisions</p>
+  </div>
+
+</div>
+
+<script>
+// Stars
+(function(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<110;i++){
+    const s=document.createElement('span');
+    const z=Math.random()*2+.4;
+    s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*5}s;--dl:${Math.random()*7}s`;
+    c.appendChild(s);
+  }
+})();
+
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['single','match'][i]===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+}
+
+function fmtDate(d){
+  if(!d)return'';
+  const[y,m,day]=d.split('-');
+  return`${day} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]} ${y}`;
+}
+
+function showLoading(el,msg){
+  el.innerHTML=`<div class="loading"><div class="ring"></div><p>${msg||'Reading the celestial blueprint…'}</p><p class="lsub">Consulting planetary positions &amp; dasha cycles</p></div>`;
+}
+
+function showError(el,msg){
+  el.innerHTML=`<div class="ebox"><strong>⚠ Error:</strong> ${msg}<ul>
+    <li>Ensure the server has <code>GEMINI_API_KEY</code> set</li>
+    <li>Check your network connection</li>
+    <li>Try again in a moment</li></ul></div>`;
+}
+
+// Clean Gemini markdown → plain HTML
+function cleanText(raw){
+  return raw
+    .replace(/```html?\n?/gi,'').replace(/```\n?/g,'')
+    .replace(/^#{3}\s+(.+)$/gm,'<h3>$1</h3>')
+    .replace(/^#{2}\s+(.+)$/gm,'<h3>$1</h3>')
+    .replace(/^#{1}\s+(.+)$/gm,'<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/^[\-\*]\s+(.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g,m=>`<ul>${m}</ul>`)
+    .replace(/\n{2,}/g,'</p><p>')
+    .replace(/^(?!<[hup]|<li|<ul|<ol|<hr|<table|<tr|<td|<th)(.+)$/gm,'<p>$1</p>')
+    .replace(/<p><\/p>/g,'')
+    .replace(/<p>(<[hul])/g,'$1')
+    .replace(/(<\/[hul][^>]*>)<\/p>/g,'$1')
+    .replace(/---/g,'<hr/>')
+    .trim();
+}
+
+async function callAPI(prompt){
+  const r=await fetch('/api/generate',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({prompt})
+  });
+  const d=await r.json();
+  if(!r.ok) throw new Error(d.error||`Server error ${r.status}`);
+  return d.result;
+}
+
+function valSingle(){
+  if(!document.getElementById('dob1').value){alert('Please enter date of birth');return false}
+  if(!document.getElementById('tob1').value){alert('Please enter time of birth');return false}
+  if(!document.getElementById('pob1').value.trim()){alert('Please enter place of birth');return false}
+  return true;
+}
+function valMatch(){
+  const fs=[['md1','Date of birth (Person 1)'],['mt1','Time of birth (Person 1)'],['mp1','Place of birth (Person 1)'],
+            ['md2','Date of birth (Person 2)'],['mt2','Time of birth (Person 2)'],['mp2','Place of birth (Person 2)']];
+  for(const[id,l] of fs){if(!document.getElementById(id).value.trim()){alert('Please enter: '+l);return false}}
+  return true;
+}
+
+async function genSingle(){
+  if(!valSingle())return;
+  const btn=document.getElementById('btnS');btn.disabled=true;
+  const name=document.getElementById('name1').value.trim()||'the native';
+  const dob=document.getElementById('dob1').value;
+  const tob=document.getElementById('tob1').value;
+  const pob=document.getElementById('pob1').value.trim();
+  const out=document.getElementById('out-single');
+  showLoading(out);
+
+  const prompt=`You are a master Vedic astrologer (Jyotish Acharya). Generate a detailed birth chart and prediction report.
+
+BIRTH DETAILS:
+- Name: ${name}
+- Date of Birth: ${dob}
+- Time of Birth: ${tob}
+- Place of Birth: ${pob}
+
+Respond in clean structured text with markdown headings (###) and bullet points. Be detailed and accurate.
+
+### Lagna & Basic Chart
+State the Lagna (Ascendant) sign and degree, Rashi (Moon Sign), Nakshatra and Pada, Tithi. Explain their significance for this person's nature.
+
+### Planetary Positions
+List all 9 grahas with sign and house placement:
+- **Sun (Surya)** — [Sign], [N]th House — [significance]
+- **Moon (Chandra)** — [Sign], [N]th House — [significance]
+- **Mars (Mangal)** — [Sign], [N]th House — [significance]
+- **Mercury (Budha)** — [Sign], [N]th House — [significance]
+- **Jupiter (Guru)** — [Sign], [N]th House — [significance]
+- **Venus (Shukra)** — [Sign], [N]th House — [significance]
+- **Saturn (Shani)** — [Sign], [N]th House — [significance]
+- **Rahu** — [Sign], [N]th House — [significance]
+- **Ketu** — [Sign], [N]th House — [significance]
+
+### Key Yogas & Doshas
+Identify 2–4 notable yogas and any doshas. Explain impact clearly.
+
+### Current Vimshottari Dasha
+State the current Mahadasha, Antardasha, and when major changes occur next. What this means for the person.
+
+### Career & Finance Predictions
+**Short term (1–2 years):** [prediction]
+**Medium term (3–5 years):** [prediction]
+**Long term:** [prediction]
+**Key opportunities:** [points]
+**Areas to be mindful of:** [points]
+
+### Marriage & Relationships
+**Short term:** [prediction]
+**Medium term:** [prediction]
+**Long term:** [prediction]
+**7th house analysis:** [spouse traits, timing]
+**Guidance:** [practical advice]
+
+### Health & Vitality
+**Constitutional Prakriti:** [based on Lagna]
+**Short term:** [prediction]
+**Long term tendencies:** [prediction]
+**Wellness recommendations:** [based on chart]
+
+### Personal Growth & Dharmic Path
+**Core life theme:** [based on Lagna, Sun, Atmakaraka]
+**Near term (1–2 years):** [prediction]
+**Medium term (3–5 years):** [prediction]
+**Soul's direction:** [based on 9th house, Ketu]
+
+Be realistic, warm, non-fear-based. Mention both opportunities and cautions. Use proper Vedic terminology.`;
+
+  try{
+    const raw=await callAPI(prompt);
+    const text=cleanText(raw);
+    out.innerHTML=`<div class="rcard">
+      <div class="rhdr"><div class="ico">☉</div><div>
+        <div class="rt">Kundali Report — ${name}</div>
+        <div class="rs">${fmtDate(dob)} &nbsp;·&nbsp; ${tob} &nbsp;·&nbsp; ${pob}</div>
+      </div></div>
+      <div class="rbody">${text}</div>
+    </div>`;
+  }catch(e){showError(out,e.message)}
+  btn.disabled=false;
+}
+
+async function genMatch(){
+  if(!valMatch())return;
+  const btn=document.getElementById('btnM');btn.disabled=true;
+  const n1=document.getElementById('mn1').value.trim()||'Person 1';
+  const d1=document.getElementById('md1').value,t1=document.getElementById('mt1').value;
+  const p1=document.getElementById('mp1').value.trim();
+  const n2=document.getElementById('mn2').value.trim()||'Person 2';
+  const d2=document.getElementById('md2').value,t2=document.getElementById('mt2').value;
+  const p2=document.getElementById('mp2').value.trim();
+  const out=document.getElementById('out-match');
+  showLoading(out,'Casting both charts and calculating Ashta-Koota compatibility…');
+
+  const prompt=`You are a master Vedic astrologer. Generate a complete Kundali Matching (Guna Milan) report.
+
+PERSON 1: ${n1} | DOB: ${d1} | TOB: ${t1} | Place: ${p1}
+PERSON 2: ${n2} | DOB: ${d2} | TOB: ${t2} | Place: ${p2}
+
+Use markdown headings (###) and bullet points. Be detailed and accurate.
+
+### Kundali — ${n1}
+Lagna, Rashi, Nakshatra (Pada), Mahadasha. Key chart highlights (3–4 points).
+
+### Predictions — ${n1}
+**Career (short/medium/long term):** 2 sentences each.
+**Relationships:** Current phase and 3-year outlook.
+**Health:** Constitution and near-term focus.
+**Personal Growth:** Dharmic direction.
+
+---
+
+### Kundali — ${n2}
+Lagna, Rashi, Nakshatra (Pada), Mahadasha. Key chart highlights.
+
+### Predictions — ${n2}
+**Career (short/medium/long term):** 2 sentences each.
+**Relationships:** Current phase and outlook.
+**Health:** Constitution and near-term.
+**Personal Growth:** Dharmic direction.
+
+---
+
+### Ashta-Koota Matching
+Score each koota with explanation:
+- **1. Varna** (max 1) — Score: X/1 — [both varnas, explanation]
+- **2. Vashya** (max 2) — Score: X/2 — [vashya groups]
+- **3. Tara** (max 3) — Score: X/3 — [nakshatra count]
+- **4. Yoni** (max 4) — Score: X/4 — [both yoni animals]
+- **5. Graha Maitri** (max 5) — Score: X/5 — [rashi lords relationship]
+- **6. Gana** (max 6) — Score: X/6 — [both ganas]
+- **7. Bhakoot** (max 7) — Score: X/7 — [rashi positions]
+- **8. Nadi** (max 8) — Score: X/8 — [both nadis]
+
+**TOTAL GUNA SCORE: XX / 36**
+
+### Compatibility Rating
+Classify: Excellent (32+), Very Good (28–31), Good (24–27), Average (18–23), Below Average (<18). Explain what this means.
+
+### Strengths of This Union
+3–5 genuine astrological strengths.
+
+### Areas Requiring Attention
+Honest, constructive assessment of challenges.
+
+### Dosha Analysis & Remedies
+Mangal Dosha check for both. Nadi/Bhakoot exceptions. Traditional remedies.
+
+### Guidance for the Couple
+Warm, practical, balanced closing advice.`;
+
+  try{
+    const raw=await callAPI(prompt);
+    const text=cleanText(raw);
+    out.innerHTML=`<div class="rcard">
+      <div class="rhdr"><div class="ico">☽</div><div>
+        <div class="rt">Kundali Matching — ${n1} &amp; ${n2}</div>
+        <div class="rs">${fmtDate(d1)} &nbsp;·&nbsp; ${fmtDate(d2)}</div>
+      </div></div>
+      <div class="rbody">${text}</div>
+    </div>`;
+  }catch(e){showError(out,e.message)}
+  btn.disabled=false;
+}
+</script>
+</body>
+</html>
