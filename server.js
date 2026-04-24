@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', keyConfigured: !!GEMINI_API_KEY });
@@ -47,7 +47,7 @@ app.post('/api/generate', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname,  'index.html'));
 });
 
 app.listen(PORT, () => {
