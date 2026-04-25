@@ -27,9 +27,9 @@ app.post('/api/generate', async (req, res) => {
 
   // 🔥 Model fallback list
   const MODELS = [
-    "gemini-2.5-flash",       // best
-    "gemini-2.0-flash",       // stable fallback
-    "gemini-2.5-flash-lite"   // lightweight fallback
+    "gemini-2.0-flash",       // primary
+    "gemini-1.5-pro",         // stable fallback
+    "gemini-pro"              // lightweight fallback
   ];
 
   let lastError = null;
